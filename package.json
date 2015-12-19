@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "less": "2.5.3",
+    "less-plugin-clean-css": "1.5.1",
+    "jade": "1.11.0"
+  }
+}
