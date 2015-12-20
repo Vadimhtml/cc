@@ -51,10 +51,21 @@ html,
     color: #000000;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
-    border: 1px solid #dddddd;
+    border-top: 0;
+    border-right: 1px solid #dddddd;
+    border-bottom: 1px solid #dddddd;
+    border-left: 1px solid #dddddd;
     -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.35);
     -moz-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.35);
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.35);
+    &:focus {
+      border-left: 1px solid #51cbee;
+      border-right: 1px solid #51cbee;
+      border-bottom: 1px solid #51cbee;
+      -webkit-box-shadow: 0 0 5px 0 rgba(81, 203, 238, 1);
+      -moz-box-shadow: 0 0 5px 0 rgba(81, 203, 238, 1);
+      box-shadow: 0 0 5px 0 rgba(81, 203, 238, 1);
+    }
   }
 }
 
@@ -98,6 +109,7 @@ html,
     transform: translate3d(0, 0, 0);
   }
 }
+
 @keyframes bounceInUp {
   from, 60%, 75%, 90%, to {
     -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
@@ -131,6 +143,7 @@ html,
     transform: translate3d(0, 0, 0);
   }
 }
+
 .bounceInUp {
   -webkit-animation-name: bounceInUp;
   animation-name: bounceInUp;
@@ -172,6 +185,7 @@ html,
     animation-timing-function: ease-in;
   }
 }
+
 @keyframes flip {
   from {
     -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
@@ -208,6 +222,7 @@ html,
     animation-timing-function: ease-in;
   }
 }
+
 .animated.flip {
   -webkit-backface-visibility: visible;
   backface-visibility: visible;
@@ -227,6 +242,7 @@ html,
     transform: translate3d(0, 0, 0);
   }
 }
+
 @keyframes slideInDown {
   from {
     -webkit-transform: translate3d(0, -100%, 0);
@@ -239,6 +255,7 @@ html,
     transform: translate3d(0, 0, 0);
   }
 }
+
 .slideInDown {
   -webkit-animation-name: slideInDown;
   animation-name: slideInDown;
@@ -260,6 +277,7 @@ html,
     transform: translate3d(10px, 0, 0);
   }
 }
+
 @keyframes shake {
   from, to {
     -webkit-transform: translate3d(0, 0, 0);
@@ -276,6 +294,7 @@ html,
     transform: translate3d(10px, 0, 0);
   }
 }
+
 .shake {
   -webkit-animation-name: shake;
   animation-name: shake;
