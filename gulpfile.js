@@ -10,7 +10,7 @@ var gulp = require('gulp'),
 
 
 gulp.task('default', function () {
-    gulp.run('less', 'jade', 'js', 'php', 'css');
+    gulp.run('less', 'jade', 'js', 'php');
 });
 
 gulp.task('less', function () {
@@ -35,11 +35,6 @@ gulp.task('js', function () {
 
 gulp.task('php', function () {
     return gulp.src('./src/**/*.php')
-        .pipe(gulp.dest('./build'));
-});
-
-gulp.task('css', function () {
-    return gulp.src('./src/**/*.css')
         .pipe(gulp.dest('./build'));
 });
 
