@@ -1298,8 +1298,19 @@ foreach ($arrayByName as $key => $val) {
         $resDistance = $distance;
         $resultName = $key;
         $resultCode = str_pad(dechex($val), 6, "0", STR_PAD_LEFT);
+    } elseif ($distance == $resDistance) {
+        $resultName .= ' или '. $key; //todo: Вынести во фронтэнд
     }
 }
+
+//$arrayByCode = array();
+//foreach ($arrayByName as $key => $val) {
+//    $hexVal = str_pad(dechex($val), 6, "0", STR_PAD_LEFT);
+//    $arrayByCode[$hexVal][]=$key;
+//
+//}
+//
+//print_r($arrayByCode);
 
 $distanceBlack = ($r - 0) * ($r - 0) + ($g - 0) * ($g - 0) + ($b - 0) * ($b - 0);
 $distanceWhite = ($r - 255) * ($r - 255) + ($g - 255) * ($g - 255) + ($b - 255) * ($b - 255);
