@@ -1,7 +1,14 @@
 $(document).ready(function () {
-    var bodyMain__tagLine = $('.bodyMain__tagLine');
-    var bodyMain__input = $('.bodyMain__input');
-    var bodyMain = $('.bodyMain');
+    var hashlink = /^(#?)([A-Fa-f0-9]{6})$/.exec(window.location.hash),
+        bodyMain__tagLine = $('.bodyMain__tagLine'),
+        bodyMain__input = $('.bodyMain__input'),
+        bodyMain = $('.bodyMain');
+
+    if (hashlink != null) {
+        hashlink = hashlink[2].toUpperCase();
+        getColorName(hashlink);
+        bodyMain__input[0].value = hashlink; //TODO: разобраться с говнокодингом
+    }
 
     function getColorName(code) {
         $.get("ajax.php?color=" + code, function (data) {
