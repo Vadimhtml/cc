@@ -60,7 +60,9 @@ $(document).ready(function () {
                 // Allow: Ctrl+A, C, V, Command+A, C, V
             ((e.keyCode == 65 || e.keyCode == 67 || e.keyCode == 86) && ( e.ctrlKey === true || e.metaKey === true ) ) ||
                 // Allow: home, end, left, right, down, up
-            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            (e.keyCode >= 35 && e.keyCode <= 40) ||
+                // Allow my special keys
+            $.inArray(e.keyCode, [16, 17, 18, 20, 93, 91]) !== -1) {
             // let it happen, don't do anything
             return;
         }
@@ -93,11 +95,14 @@ $(document).ready(function () {
             69: 'E',
             70: 'F'
         };
-        if (e.keyCode in keyMap == true) setNewText(this, keyMap[e.keyCode]);
+        if (e.keyCode in keyMap == true) setNewText(this, keyMap[e.keyCode]); else bodyMain__input.addClass('animated shake');
     });
 
     bodyMain__tagLine.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
         $(this).removeClass('bounceInUp').removeClass('flip');
+    });
+    bodyMain__input.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+        $(this).removeClass('slideInDown').removeClass('shake');
     });
 
     bodyMain__tagLine.addClass('animated bounceInUp');
