@@ -1,13 +1,22 @@
 $(document).ready(function () {
-    var hashlink = /^(#?)([A-Fa-f0-9]{6})$/.exec(window.location.hash),
-        bodyMain__tagLine = $('.bodyMain__tagLine'),
+    var bodyMain__tagLine = $('.bodyMain__tagLine'),
         bodyMain__input = $('.bodyMain__input'),
         bodyMain = $('.bodyMain');
 
-    if (hashlink != null) {
-        hashlink = hashlink[2].toUpperCase();
-        getColorName(hashlink);
-        bodyMain__input[0].value = hashlink; //TODO: разобраться с говнокодингом
+    hashCheck();
+
+    $(window).on('hashchange', function () {
+        hashCheck();
+    });
+
+    function hashCheck() {
+        console.log('hash');
+        var hashlink = /^(#?)([A-Fa-f0-9]{6})$/.exec(window.location.hash);
+        if (hashlink != null) {
+            hashlink = hashlink[2].toUpperCase();
+            getColorName(hashlink);
+            bodyMain__input[0].value = hashlink; //TODO: разобраться с говнокодингом
+        }
     }
 
     function getColorName(code) {
