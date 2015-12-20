@@ -45,6 +45,8 @@ $(document).ready(function () {
             if (validate[2].length == 6) {
                 getColorName(validate[2]);
             }
+        } else {
+            bodyMain__input.addClass('shake');
         }
     }
 
@@ -95,7 +97,7 @@ $(document).ready(function () {
             69: 'E',
             70: 'F'
         };
-        if (e.keyCode in keyMap == true) setNewText(this, keyMap[e.keyCode]); else bodyMain__input.addClass('animated shake');
+        if (e.keyCode in keyMap == true) setNewText(this, keyMap[e.keyCode]); else bodyMain__input.addClass('shake');
     });
 
     bodyMain__tagLine.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
