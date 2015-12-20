@@ -10,7 +10,6 @@ $(document).ready(function () {
     });
 
     function hashCheck() {
-        console.log('hash');
         var hashlink = /^(#?)([A-Fa-f0-9]{6})$/.exec(window.location.hash);
         if (hashlink != null) {
             hashlink = hashlink[2].toUpperCase();
@@ -28,6 +27,7 @@ $(document).ready(function () {
                 backgroundColor: '#' + code,
                 color: '#' + jsonData.contr
             });
+            window.location.hash = code;
         });
     }
 
