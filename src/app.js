@@ -4,7 +4,7 @@ $(document).ready(function () {
     var bodyMain = $('.bodyMain');
 
     function getColorName(code) {
-        $.get("close.php?color=" + code, function (data) {
+        $.get("ajax.php?color=" + code, function (data) {
             jsonData = JSON.parse(data);
             bodyMain__tagLine.html('—' + jsonData.name + '!');
             bodyMain__tagLine.addClass('flip');
