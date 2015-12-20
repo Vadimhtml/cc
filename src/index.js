@@ -37,7 +37,7 @@ $(document).ready(function () {
         var selectionEnd = input.selectionEnd;
         var length = text.length;
         text = value.substring(0, selectionStart) + text + value.substring(selectionEnd);
-        var validate = /^(#?)([A-F0-9]{0,6})$/.exec(text);
+        var validate = /^(#?)([A-F0-9]{0,6})(;?)$/.exec(text);
         if (validate != null) {
             input.value = validate[2];
             input.selectionStart = selectionStart + length;
