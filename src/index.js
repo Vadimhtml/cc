@@ -58,7 +58,6 @@ $(document).ready(function () {
     });
 
     bodyMain__input.keydown(function (e) {
-        console.log(e.keyCode);
         // Allow: backspace, delete, tab, escape, enter
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
                 // Allow: Ctrl+A, C, V, Command+A, C, V
