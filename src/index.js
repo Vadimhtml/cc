@@ -108,7 +108,7 @@ $(document).ready(function () {
         $(this).removeClass('slideInDown').removeClass('shake');
     });
 
-    bodyMain__tagLine.addClass('animated bounceInUp');
-    bodyMain__input.addClass('animated slideInDown');
+    bodyMain__tagLine.addClass('bounceInUp');
+    bodyMain__input.addClass('slideInDown');
     bodyMain__input[0].focus();
 });
