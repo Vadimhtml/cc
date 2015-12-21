@@ -61,6 +61,14 @@ html,
   }
 }
 
+.bounceInUp,
+.flip,
+.slideInDown,
+.shake {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
 @keyframes bounceInUp {
   from, 60%, 75%, 90%, to {
     animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
@@ -88,9 +96,8 @@ html,
     transform: translate3d(0, 0, 0);
   }
 }
+
 .bounceInUp {
-  animation-duration: 1s;
-  animation-fill-mode: both;
   animation-name: bounceInUp;
 }
 
@@ -120,9 +127,8 @@ html,
     animation-timing-function: ease-in;
   }
 }
+
 .flip {
-  animation-duration: 1s;
-  animation-fill-mode: both;
   backface-visibility: visible;
   animation-name: flip;
 }
@@ -137,9 +143,8 @@ html,
     transform: translate3d(0, 0, 0);
   }
 }
+
 .slideInDown {
-  animation-duration: 1s;
-  animation-fill-mode: both;
   animation-name: slideInDown;
 }
 
@@ -156,8 +161,7 @@ html,
     transform: translate3d(10px, 0, 0);
   }
 }
+
 .shake {
-  animation-duration: 1s;
-  animation-fill-mode: both;
   animation-name: shake;
 }
