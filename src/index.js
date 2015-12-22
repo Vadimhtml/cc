@@ -13,7 +13,8 @@ $(window).load(function () {
         bodyMain__input = $('.bodyMain__input'),
         bodyMain__tagLine = $('.bodyMain__tagLine'),
         bodyMain__tagLine_initText = bodyMain__tagLine.text(),
-        documentInit = false;
+        documentInit = false,
+        defaultState = true;
 
     function setColorState(color) {
         $.get("ajax.php?color=" + color, function (data) {
@@ -21,6 +22,7 @@ $(window).load(function () {
             bodyMain.css('color', '#' + jsonData.contr);
             bodyMain__tagLine.text('—' + jsonData.name + '!');
             bodyMain__input.val(color);
+            oldValue = color;
             bodyMain.css('background-color', '#' + color);
             window.location.hash = color;
             if (documentInit == false) {
@@ -32,6 +34,7 @@ $(window).load(function () {
             } else {
                 bodyMain__tagLine.addClass('flip');
             }
+            defaultState = false;
         });
     }
 
@@ -44,6 +47,7 @@ $(window).load(function () {
         });
         bodyMain__tagLine.addClass('bounceInUp');
         window.location.hash = '';
+        defaultState = true;
     }
 
     bodyMain__tagLine.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
@@ -69,76 +73,35 @@ $(window).load(function () {
         if (hashChangeValidateResult == null) {
             dropColorState();
         } else {
-            setColorState(hashChangeValidateResult);
+            if (oldValue != hashChangeValidateResult) {
+                setColorState(hashChangeValidateResult);
+            }
         }
     });
 
-    function setNewText(input, text) {
-        var value = input.value,
-            selectionStart = input.selectionStart,
-            selectionEnd = input.selectionEnd,
-            length = text.length;
-        text = value.substring(0, selectionStart) + text + value.substring(selectionEnd);
-        var validate = /^(#?)([A-F0-9]{0,6})(;?)$/.exec(text);
-        if (validate != null) {
-            input.value = validate[2];
-            input.selectionStart = selectionStart + length;
-            input.selectionEnd = input.selectionStart;
-            if (validate[2].length == 6) {
-                setColorState(validate[2]);
+    var oldValue = '';
+
+    function checkInput() {
+        var newValue = bodyMain__input[0].value;
+        if (newValue != oldValue) {
+            var validate = /^(#?)([A-F0-9]{0,6})(;?)$/.exec(newValue.toUpperCase());
+            if (validate != null) {
+                bodyMain__input.val(validate[2]);
+                oldValue = validate[2];
+                if (validate[2].length == 6) {
+                    setColorState(validate[2]);
+                }
+                else if (validate[2].length == 0) {
+                    if (defaultState != true) {
+                        dropColorState();
+                    }
+                }
+            } else {
+                bodyMain__input.val(oldValue);
+                bodyMain__input.addClass('shake');
             }
-        } else {
-            bodyMain__input.addClass('shake');
         }
     }
 
-    bodyMain__input.on('paste', function (e) {
-        e.preventDefault();
-        var clipboard = (e.originalEvent || e).clipboardData.getData('text/plain') || false;
-        if (clipboard != false) setNewText(this, clipboard.toUpperCase());
-    });
-
-    bodyMain__input.keydown(function (e) {
-        // Allow: backspace, delete, tab, escape, enter
-        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110]) !== -1 ||
-                // Allow: Ctrl+A, C, V, Command+A, C, V
-            ((e.keyCode == 65 || e.keyCode == 67 || e.keyCode == 86) && ( e.ctrlKey === true || e.metaKey === true ) ) ||
-                // Allow: home, end, left, right, down, up
-            (e.keyCode >= 35 && e.keyCode <= 40) ||
-                // Allow my special keys
-            $.inArray(e.keyCode, [16, 17, 18, 20, 93, 91]) !== -1) {
-            // let it happen, don't do anything
-            return;
-        }
-        e.preventDefault();
-        var keyMap = {
-            48: '0',
-            49: '1',
-            50: '2',
-            51: '3',
-            52: '4',
-            53: '5',
-            54: '6',
-            55: '7',
-            56: '8',
-            57: '9',
-            96: '0',
-            97: '1',
-            98: '2',
-            99: '3',
-            100: '4',
-            101: '5',
-            102: '6',
-            103: '7',
-            104: '8',
-            105: '9',
-            65: 'A',
-            66: 'B',
-            67: 'C',
-            68: 'D',
-            69: 'E',
-            70: 'F'
-        };
-        if (e.keyCode in keyMap == true) setNewText(this, keyMap[e.keyCode]); else bodyMain__input.addClass('shake');
-    });
+    setInterval(checkInput, 1);
 });
