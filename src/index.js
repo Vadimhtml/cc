@@ -1,42 +1,83 @@
-$(document).ready(function () {
-    var bodyMain__tagLine = $('.bodyMain__tagLine'),
-        bodyMain__input = $('.bodyMain__input'),
-        bodyMain = $('.bodyMain');
+$(window).load(function () {
 
-    bodyMain__input.val(null);
-    hashCheck();
-
-    $(window).on('hashchange', function () {
-        hashCheck();
-    });
-
-    function hashCheck() {
-        var hashlink = /^(#?)([A-Fa-f0-9]{6})$/.exec(window.location.hash);
-        if (hashlink != null) {
-            hashlink = hashlink[2].toUpperCase();
-            getColorName(hashlink);
-            bodyMain__input[0].value = hashlink; //TODO: разобраться с говнокодингом
+    function hashValidate() {
+        var result = /^(#?)([A-Fa-f0-9]{6})$/.exec(window.location.hash);
+        if (result != null) {
+            result = result[2].toUpperCase();
         }
+        return result;
     }
 
-    function getColorName(code) {
-        $.get("ajax.php?color=" + code, function (data) {
+    var hashValidateResult = hashValidate(),
+        bodyMain = $('.bodyMain'),
+        bodyMain__input = $('.bodyMain__input'),
+        bodyMain__tagLine = $('.bodyMain__tagLine'),
+        bodyMain__tagLine_initText = bodyMain__tagLine.text(),
+        documentInit = false;
+
+    function setColorState(color) {
+        $.get("ajax.php?color=" + color, function (data) {
             jsonData = JSON.parse(data);
-            bodyMain__tagLine.html('—' + jsonData.name + '!');
-            bodyMain__tagLine.addClass('flip');
-            bodyMain.css({
-                backgroundColor: '#' + code,
-                color: '#' + jsonData.contr
-            });
-            window.location.hash = code;
+            bodyMain.css('color', '#' + jsonData.contr);
+            bodyMain__tagLine.text('—' + jsonData.name + '!');
+            bodyMain__input.val(color);
+            bodyMain.css('background-color', '#' + color);
+            window.location.hash = color;
+            if (documentInit == false) {
+                documentInit = true;
+                document.body.className = 'bodyMain';
+                bodyMain__tagLine.addClass('bounceInUp');
+                bodyMain__input.addClass('slideInDown');
+                bodyMain__input[0].focus();
+            } else {
+                bodyMain__tagLine.addClass('flip');
+            }
         });
     }
 
+    function dropColorState() {
+        bodyMain__input.val(null);
+        bodyMain__tagLine.text(bodyMain__tagLine_initText);
+        bodyMain.css({
+            backgroundColor: '#ffffff',
+            color: '#000000'
+        });
+        bodyMain__tagLine.addClass('bounceInUp');
+        window.location.hash = '';
+    }
+
+    bodyMain__tagLine.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+        $(this).removeClass('bounceInUp').removeClass('flip');
+    });
+    bodyMain__input.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+        $(this).removeClass('slideInDown').removeClass('shake');
+    });
+
+    if (hashValidateResult == null) {
+        bodyMain__input.val(null);
+        document.body.className = 'bodyMain';
+        bodyMain__tagLine.addClass('bounceInUp');
+        bodyMain__input.addClass('slideInDown');
+        bodyMain__input[0].focus();
+        documentInit = true;
+    } else {
+        setColorState(hashValidateResult);
+    }
+
+    $(window).on('hashchange', function () {
+        var hashChangeValidateResult = hashValidate();
+        if (hashChangeValidateResult == null) {
+            dropColorState();
+        } else {
+            setColorState(hashChangeValidateResult);
+        }
+    });
+
     function setNewText(input, text) {
-        var value = input.value;
-        var selectionStart = input.selectionStart;
-        var selectionEnd = input.selectionEnd;
-        var length = text.length;
+        var value = input.value,
+            selectionStart = input.selectionStart,
+            selectionEnd = input.selectionEnd,
+            length = text.length;
         text = value.substring(0, selectionStart) + text + value.substring(selectionEnd);
         var validate = /^(#?)([A-F0-9]{0,6})(;?)$/.exec(text);
         if (validate != null) {
@@ -44,7 +85,7 @@ $(document).ready(function () {
             input.selectionStart = selectionStart + length;
             input.selectionEnd = input.selectionStart;
             if (validate[2].length == 6) {
-                getColorName(validate[2]);
+                setColorState(validate[2]);
             }
         } else {
             bodyMain__input.addClass('shake');
@@ -100,15 +141,4 @@ $(document).ready(function () {
         };
         if (e.keyCode in keyMap == true) setNewText(this, keyMap[e.keyCode]); else bodyMain__input.addClass('shake');
     });
-
-    bodyMain__tagLine.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-        $(this).removeClass('bounceInUp').removeClass('flip');
-    });
-    bodyMain__input.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-        $(this).removeClass('slideInDown').removeClass('shake');
-    });
-
-    bodyMain__tagLine.addClass('bounceInUp');
-    bodyMain__input.addClass('slideInDown');
-    bodyMain__input[0].focus();
 });
