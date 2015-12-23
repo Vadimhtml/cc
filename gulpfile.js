@@ -11,7 +11,7 @@ function errorLog(err) {
 }
 
 gulp.task('default', function () {
-    gulp.run('less', 'js', 'jade', 'php');
+    gulp.run('less', 'js', 'jade');
 });
 
 gulp.task('less', function () {
@@ -35,13 +35,6 @@ gulp.task('jade', function () {
         .on('error', errorLog)
         .pipe(gulp.dest('./build'));
 });
-
-gulp.task('php', function () {
-    return gulp.src('./src/**/*.php')
-        .pipe(gulp.dest('./build'))
-        .on('error', errorLog);
-});
-
 
 gulp.task('watch', function () {
     gulp.watch('./src/**', function (event) {
