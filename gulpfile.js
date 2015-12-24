@@ -3,7 +3,8 @@ var gulp = require('gulp'),
     gulpMyth = require('gulp-myth'),
     gulpUtil = require('gulp-util'),
     gulpUglify = require('gulp-uglify'),
-    gulpJade = require('gulp-jade');
+    gulpJade = require('gulp-jade'),
+    gulpConcat = require('gulp-concat');
 
 function errorLog(err) {
     gulpUtil.log(gulpUtil.colors.bgRed.white.bold(' Error: '), gulpUtil.colors.red(err.message))
@@ -23,7 +24,8 @@ gulp.task('less', function () {
 });
 
 gulp.task('js', function () {
-    return gulp.src('./src/**/*.js')
+    return gulp.src(['./node_modules/jquery/dist/jquery.min.js', './src/**/*.js'])
+        .pipe(gulpConcat('index.js'))
         .pipe(gulpUglify())
         .on('error', errorLog)
         .pipe(gulp.dest('./build'));
