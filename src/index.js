@@ -23,19 +23,24 @@ casesObject.cases.normal = {
         return '—' + result.join(' или ') + '!';
     }
 };
-
-//casesObject.clearWords();
-//
-//casesObject.addWord('Air Force Blue (USAF)');
-//casesObject.addWord('Blue (Munsell)');
-//casesObject.addWord('Blue-Magenta Violet');
-//
-//casesObject.makeResult(casesObject.cases.normal);
-//console.log(casesObject);
-//
-//casesObject.makeResult(casesObject.cases.upperCase);
-//console.log(casesObject);
-
+casesObject.cases.upperCamelCase = {
+    run: function (run) {
+        var result = [];
+        run.forEach(function (e) {
+            result.push(e.toUpperCamelCase());
+        });
+        return result.join(' | ');
+    }
+};
+casesObject.cases.lowerCamelCase = {
+    run: function (run) {
+        var result = [];
+        run.forEach(function (e) {
+            result.push(e.toLowerCamelCase());
+        });
+        return result.join(' | ');
+    }
+};
 
 $(window).load(function () {
     colors = {
