@@ -1,3 +1,37 @@
+var casesObject = {
+    cases: {},
+    words: [],
+    makeCasesLine: function(){
+        return this.cases;
+    }
+};
+
+
+casesObject.cases.upperCamelCase = {
+    run: function(e){ return e; },
+    name: 'UpCaCa'
+};
+casesObject.cases.lowerCamelCase = {
+    run: function(e){ return e; },
+    name: 'loCaCa'
+};
+casesObject.cases.snakeCase = {
+    run: function(e){ return e; },
+    name: 'sn_ca'
+};
+casesObject.cases.screaminSnakeCase = {
+    run: function(e){ return e; },
+    name: 'SC_SN_CA'
+};
+casesObject.cases.trainCase = {
+    run: function(e){ return e; },
+    name: 'Tr_Ca'
+};
+
+casesObject.words = ['Absolute Zero', 'Air Force Blue (USAF)', 'Blue-Magenta Violet'];
+
+console.log(casesObject.makeCasesLine());
+
 $(window).load(function () {
     colors = {
         'Absolute Zero': '0048BA',
