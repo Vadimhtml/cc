@@ -1,36 +1,41 @@
 var casesObject = {
     cases: {},
     words: [],
-    makeCasesLine: function(){
-        return this.cases;
+    result: '',
+    clearWords: function () {
+        this.words = [];
+    },
+    addWord: function (e) {
+        this.words.push(e);
+    },
+    makeResult: function (e) {
+        this.result = e.run(this.words);
+        return this.result;
     }
 };
 
-
-casesObject.cases.upperCamelCase = {
-    run: function(e){ return e; },
-    name: 'UpCaCa'
-};
-casesObject.cases.lowerCamelCase = {
-    run: function(e){ return e; },
-    name: 'loCaCa'
-};
-casesObject.cases.snakeCase = {
-    run: function(e){ return e; },
-    name: 'sn_ca'
-};
-casesObject.cases.screaminSnakeCase = {
-    run: function(e){ return e; },
-    name: 'SC_SN_CA'
-};
-casesObject.cases.trainCase = {
-    run: function(e){ return e; },
-    name: 'Tr_Ca'
+casesObject.cases.normal = {
+    run: function (run) {
+        var result = [];
+        run.forEach(function (e) {
+            result.push(e);
+        });
+        return '—' + result.join(' или ') + '!';
+    }
 };
 
-casesObject.words = ['Absolute Zero', 'Air Force Blue (USAF)', 'Blue-Magenta Violet'];
+//casesObject.clearWords();
+//
+//casesObject.addWord('Air Force Blue (USAF)');
+//casesObject.addWord('Blue (Munsell)');
+//casesObject.addWord('Blue-Magenta Violet');
+//
+//casesObject.makeResult(casesObject.cases.normal);
+//console.log(casesObject);
+//
+//casesObject.makeResult(casesObject.cases.upperCase);
+//console.log(casesObject);
 
-console.log(casesObject.makeCasesLine());
 
 $(window).load(function () {
     colors = {
@@ -1303,17 +1308,20 @@ $(window).load(function () {
         resultName = '';
 
         for (var color in colors) {
-            rc = parseInt(colors[color].substr(0, 2), 16);
-            gc = parseInt(colors[color].substr(2, 2), 16);
-            bc = parseInt(colors[color].substr(4, 2), 16);
+            if (colors.hasOwnProperty(color)) {
+                rc = parseInt(colors[color].substr(0, 2), 16);
+                gc = parseInt(colors[color].substr(2, 2), 16);
+                bc = parseInt(colors[color].substr(4, 2), 16);
 
-            distance = (r - rc) * (r - rc) + (g - gc) * (g - gc) + (b - bc) * (b - bc);
+                distance = (r - rc) * (r - rc) + (g - gc) * (g - gc) + (b - bc) * (b - bc);
 
-            if (distance < resDistance) {
-                resDistance = distance;
-                resultName = color;
-            } else if (distance == resDistance) {
-                resultName = resultName + ' или ' + color;
+                if (distance < resDistance) {
+                    resDistance = distance;
+                    casesObject.clearWords();
+                    casesObject.addWord(color);
+                } else if (distance == resDistance) {
+                    casesObject.addWord(color);
+                }
             }
         }
 
@@ -1327,7 +1335,7 @@ $(window).load(function () {
         }
 
         return ({
-            name: resultName,
+            name: casesObject.makeResult(casesObject.cases.normal),
             contr: altrenceCode
         });
     }
@@ -1351,7 +1359,7 @@ $(window).load(function () {
     function setColorState(color) {
         jsonData = getColor(color);
         bodyMain.css('color', '#' + jsonData.contr);
-        bodyMain__tagLine.text('—' + jsonData.name + '!');
+        bodyMain__tagLine.text(jsonData.name);
         bodyMain__input.val(color);
         oldValue = color;
         bodyMain.css('background-color', '#' + color);
