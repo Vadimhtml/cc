@@ -1,48 +1,6 @@
-var casesObject = {
-    cases: {},
-    words: [],
-    result: '',
-    clearWords: function () {
-        this.words = [];
-    },
-    addWord: function (e) {
-        this.words.push(e);
-    },
-    makeResult: function (e) {
-        this.result = e.run(this.words);
-        return this.result;
-    }
-};
-
-casesObject.cases.normal = {
-    run: function (run) {
-        var result = [];
-        run.forEach(function (e) {
-            result.push(e);
-        });
-        return '—' + result.join(' или ') + '!';
-    }
-};
-casesObject.cases.upperCamelCase = {
-    run: function (run) {
-        var result = [];
-        run.forEach(function (e) {
-            result.push(e.toUpperCamelCase());
-        });
-        return result.join(' | ');
-    }
-};
-casesObject.cases.lowerCamelCase = {
-    run: function (run) {
-        var result = [];
-        run.forEach(function (e) {
-            result.push(e.toLowerCamelCase());
-        });
-        return result.join(' | ');
-    }
-};
-
 $(window).load(function () {
+    casesObject.init();
+
     colors = {
         'Absolute Zero': '0048BA',
         'Acid Green': 'B0BF1A',
@@ -1340,7 +1298,7 @@ $(window).load(function () {
         }
 
         return ({
-            name: casesObject.makeResult(casesObject.cases.normal),
+            name: casesObject.makeResult(casesObject.activeCase),
             contr: altrenceCode
         });
     }
