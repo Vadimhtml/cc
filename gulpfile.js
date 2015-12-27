@@ -24,9 +24,21 @@ gulp.task('less', function () {
 });
 
 gulp.task('js', function () {
-    return gulp.src(['./node_modules/jquery/dist/jquery.min.js', './src/**/*.js'])
+    //return gulp.src(['./node_modules/jquery/dist/jquery.min.js', './src/**/*.js'])
+    //return gulp.src('./src/**/*.js')
+    return gulp.src([
+            './src/_toLowerCamelCase.js',
+            './src/_toUpperCamelCase.js',
+            './src/_getCookie.js',
+            './src/app.js',
+            './src/app.colors.js',
+            './src/app.getColor.js',
+            './src/app.hashValidate.js',
+            './src/app.cases.js',
+            './src/index.js'
+        ])
         .pipe(gulpConcat('index.js'))
-        .pipe(gulpUglify())
+        //.pipe(gulpUglify())
         .on('error', errorLog)
         .pipe(gulp.dest('./build'));
 });
