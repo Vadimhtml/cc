@@ -28,7 +28,8 @@ app.render = {
         $('body')
             .css({
                 color: '#' + this.color,
-                backgroundColor: '#' + this.backgroundColor
+                backgroundColor: '#' + this.backgroundColor,
+                borderColor: '#' + this.color
             })
             .removeClass('bodyMain_loading');
 

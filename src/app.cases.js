@@ -7,7 +7,7 @@ app.cases = {
             });
             return '—' + result.join(' или ') + '!';
         },
-        name: 'Color name'
+        name: 'Название'
     },
     upperCamelCase: {
         run: function (run) {
