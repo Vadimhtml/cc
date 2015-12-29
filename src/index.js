@@ -112,17 +112,17 @@ $(window).load(function () {
     var tagLine = $('.bodyMain__tagLine'),
         input = $('.bodyMain__input');
 
-
     tagLine.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-        $(this).removeClass('bounceInUp').removeClass('flip');
+        $(this).removeClass('bounceInUp flip');
     });
     input.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-        $(this).removeClass('slideInDown').removeClass('shake');
+        $(this).removeClass('slideInDown shake');
     });
 
     app.init(tagLine, input);
 
     var oldValue = input[0].value;
+
     function checkInput() {
         var newValue = input[0].value;
         if (newValue != oldValue) {
@@ -142,7 +142,27 @@ $(window).load(function () {
             }
         }
     }
+
     setInterval(checkInput, 1);
 
-///    console.log(app);    lowerCamelCase UpperCamelCase SCREAMING_SNAKE_CASE Train_Case Upper_snake_case lower_snake_kase
+//  console.log(app);    lowerCamelCase UpperCamelCase SCREAMING_SNAKE_CASE Train_Case Upper_snake_case lower_snake_kase
+
+    var domCasesList = document.createElement('ul');
+    for (var e in app.cases) {
+        var domCaseElement = document.createElement('li'),
+            domCaseLink = document.createElement('a');
+        domCaseElement.className = 'caseList__element';
+        domCaseLink.className = 'caseList__link';
+        domCaseLink.innerHTML = app.cases[e].name;
+        domCaseLink.setAttribute('href', '/');
+        domCaseLink.setAttribute('data-case', e);
+        domCaseElement.appendChild(domCaseLink);
+        domCasesList.appendChild(domCaseElement);
+    }
+    domCasesList.className = 'caseList';
+    document.body.appendChild(domCasesList);
+    $('.caseList__link').click(function (e) {
+        app.activeCaseValue($(this).data('case'));
+        e.preventDefault();
+    });
 });
