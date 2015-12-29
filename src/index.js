@@ -1,4 +1,24 @@
-var mvc = {};
+Object.prototype.addWatcher = function (watcherName, watcherCallback) {
+    var the = this;
+    if (the.hasOwnProperty(watcherName) && typeof(the[watcherName]) === 'function') {
+        if (the.originalEvent === undefined) {
+            the.originalEvent = the[watcherName];
+            the.watchers = [];
+        }
+        the.watchers.push(watcherCallback);
+        the[watcherName] = function () {
+            the.originalEvent();
+            for (var watcherIndex in the.watchers) {
+                if (the.watchers.hasOwnProperty(watcherIndex)) {
+                    the.watchers[watcherIndex]();
+                }
+            }
+        };
+        return true;
+    } else {
+        return false;
+    }
+};
 
 var model = {
     color: undefined,
@@ -22,29 +42,25 @@ var model = {
         this.headerAnimation = headerAnimation;
         this.inputAnimation = inputAnimation;
         this.hash = hash;
-        for (var eventListener in this.eventListeners.update) {
-            if (this.eventListeners.update.hasOwnProperty(eventListener)) {
-                this.eventListeners.update[eventListener]();
-            }
-        }
-    },
-    eventListeners: {},
-    addEventListener: function (e, f) {
-        if (!this.eventListeners.hasOwnProperty(e)) {
-            this.eventListeners[e] = [];
-        }
-        this.eventListeners[e].push(f);
+        console.log('Update INSIDE');
     }
 };
 
-model.addEventListener('update', function () {
+model.addWatcher('update', function () {
     console.log('Listener ONE');
 });
-model.addEventListener('update', function () {
+model.addWatcher('update', function () {
     console.log('Listener TWO');
 });
+model.addWatcher('update', function () {
+    console.log('Listener THREE');
+});
+model.addWatcher('update', function () {
+    console.log('Listener FOUR');
+});
 
-model.update(1, 2, 3, 4, 5, 6);
+model.update(1, 2, 3, 4, 5, 6, 7);
+
 
 app.initialText = undefined;
 app.tagLine = undefined;
