@@ -1,3 +1,51 @@
+var mvc = {};
+
+var model = {
+    color: undefined,
+    contrastColor: undefined,
+    headerText: undefined,
+    inputText: undefined,
+    headerAnimation: undefined,
+    inputAnimation: undefined,
+    hash: undefined,
+    update: function (color,
+                      contrastColor,
+                      headerText,
+                      inputText,
+                      headerAnimation,
+                      inputAnimation,
+                      hash) {
+        this.color = color;
+        this.contrastColor = contrastColor;
+        this.headerText = headerText;
+        this.inputText = inputText;
+        this.headerAnimation = headerAnimation;
+        this.inputAnimation = inputAnimation;
+        this.hash = hash;
+        for (var eventListener in this.eventListeners.update) {
+            if (this.eventListeners.update.hasOwnProperty(eventListener)) {
+                this.eventListeners.update[eventListener]();
+            }
+        }
+    },
+    eventListeners: {},
+    addEventListener: function (e, f) {
+        if (!this.eventListeners.hasOwnProperty(e)) {
+            this.eventListeners[e] = [];
+        }
+        this.eventListeners[e].push(f);
+    }
+};
+
+model.addEventListener('update', function () {
+    console.log('Listener ONE');
+});
+model.addEventListener('update', function () {
+    console.log('Listener TWO');
+});
+
+model.update(1, 2, 3, 4, 5, 6);
+
 app.initialText = undefined;
 app.tagLine = undefined;
 app.input = undefined;
